@@ -19,8 +19,13 @@
             "environment": [
                 {"name": "ENVIRONMENT", "value": "production"},
                 {"name": "DEBUG", "value": "false"},
-                {"name": "API_KEYS", "value": "change-me-in-production"},
                 {"name": "AWS_DEFAULT_REGION", "value": "us-east-1"}
+            ],
+            "secrets": [
+                {
+                    "name": "API_KEYS",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:020212777583:secret:ai-detector/api-keys-1CVOat"
+                }
             ],
             "logConfiguration": {
                 "logDriver": "awslogs",
