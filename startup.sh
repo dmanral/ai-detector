@@ -35,4 +35,4 @@ if [ ! -d "./app/models/text_classifier/tokenizer" ]; then
 fi
 
 echo "All models ready. Starting server..."
-uvicorn app.main:app --host 0.0.0.0 --port 8000s
+uvicorn app.main:app --host 0.0.0.0 --port 8000
