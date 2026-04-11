@@ -17,6 +17,7 @@ jobs:
   deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
+    environment: ai-detector prod
 
     steps:
       - name: Checkout code
