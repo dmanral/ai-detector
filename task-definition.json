@@ -1,0 +1,36 @@
+{
+    "family": "ai-detector",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "2048",
+    "memory": "8192",
+    "executionRoleArn": "arn:aws:iam::020212777583:role/ai-detector-execution-role",
+    "taskRoleArn": "arn:aws:iam::020212777583:role/ai-detector-task-role",
+    "containerDefinitions": [
+        {
+            "name": "ai-detector",
+            "image": "020212777583.dkr.ecr.us-east-1.amazonaws.com/ai-detector:latest",
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {"name": "ENVIRONMENT", "value": "production"},
+                {"name": "DEBUG", "value": "false"},
+                {"name": "API_KEYS", "value": "change-me-in-production"},
+                {"name": "AWS_DEFAULT_REGION", "value": "us-east-1"}
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/ai-detector",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "essential": true
+        }
+    ]
+}
