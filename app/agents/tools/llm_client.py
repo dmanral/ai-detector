@@ -120,7 +120,7 @@ class LLMClient:
 
         headers = {
             "Content-Type": "application/json",
-            "x-goog-api-key": settings.google_api_key,
+            "x-goog-api-key": settings.google_ai_api_key,
         }
 
         # Build content parts.
