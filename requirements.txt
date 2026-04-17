@@ -24,3 +24,8 @@ python-docx
 
 # Utilities
 onnx
+
+# Agents
+ollama
+google-genai        # Google AI SDK for production swap.
+httpx               # Async HTTP client for Ollama API calls.

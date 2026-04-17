@@ -48,6 +48,12 @@ class Settings(BaseSettings):
     text_classifier_model: str = "./app/models/text_classifier/model.onnx"
     text_classifier_tokenizer_dir: str = "./app/models/text_classifier/tokenizer"
 
+    # --- LLMs settings ---
+    llm_provider: str = "ollama" # ollama | google
+    llm_model_local: str = "gemma3:4b" # local Ollama model
+    llm_model_google: str = "gemma-2.0-flash" # Google AI model
+    google_ai_api_key: str = "" # set in .env for prod.
+
     # --- Computed helpers (no env var needed) ---
     @property
     def api_keys_set(self) -> set[str]:
