@@ -31,7 +31,7 @@
                 },
                 {
                     "name": "GOOGLE_AI_API_KEY",
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:020212777583:secret:ai-detector/google-ai-api-key-XXXXXX"
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:020212777583:secret:ai-detector/google-ai-api-key-yxumKL"
                 }
             ],
             "logConfiguration": {
