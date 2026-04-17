@@ -84,29 +84,39 @@ class DocumentAgent(BaseAgent):
         """
         Parse Gemma's structured response.
         Expected format:
-            PROBABILITY: 0.87
-            VERDICT: AI generated
-            REASONING: ...
+            Probability: 0.95,
+            Verdict: AI generated,
+            Reasoning: ...
         """
-
         lines = response.strip().split("\n")
         result = {
             "probability": 0.5,
             "verdict": "Uncertain",
-            "reasoning": response
+            "reasoning": response,  # Fallback to full response if parsing fails.
         }
 
         for line in lines:
-            line = line.strip()
-            if line.startswith("PROBABILITY:"):
+            line = line.strip().lstrip("*-• ").strip()
+
+            # Handle PROBABILITY
+            if line.lower().startswith("probability:"):
                 try:
-                    val = float(line.split(":", 1)[1].strip())
-                    result["probability"] = max(0.0, min(1.0, val))
-                except ValueError:
+                    val_srt = line.split(":", 1)[1].strip()
+                    # Extract first number found.
+                    import re
+                    numbers = re.findall(r"0?\.\d+|\d+\.?\d*", val_str)
+                    if numbers:
+                        val = float(numbers[0])
+                        result["probability"] = max(0.0, min(1.0, val))
+                except (ValueError, IndexError):
                     pass
-            elif line.startswith("VERDICT:"):
+            
+            # Handle VERDICT
+            elif line.lower().startswith("verdict:"):
                 result["verdict"] = line.split(":", 1)[1].strip()
-            elif line.startswith("REASONING:"):
+            
+            # Handle REASONING
+            elif line.lower().startswith("reasoning:"):
                 result["reasoning"] = line.split(":", 1)[1].strip()
         
         return result
