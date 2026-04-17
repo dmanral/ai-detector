@@ -7,6 +7,7 @@ Returns an enriched result with the original signals plus LLM reasoing.
 """
 
 import logging
+import re
 from typing import Optional
 
 from app.agents.base import BaseAgent
@@ -97,9 +98,7 @@ class ImageAgent(BaseAgent):
             # Handle PROBABILITY
             if line.lower().startswith("probability:"):
                 try:
-                    val_srt = line.split(":", 1)[1].strip()
-                    # Extract first number found.
-                    import re
+                    val_str = line.split(":", 1)[1].strip()  # make sure this line is present
                     numbers = re.findall(r"0?\.\d+|\d+\.?\d*", val_str)
                     if numbers:
                         val = float(numbers[0])
