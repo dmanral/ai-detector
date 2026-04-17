@@ -51,7 +51,7 @@ class Settings(BaseSettings):
     # --- LLMs settings ---
     llm_provider: str = "ollama" # ollama | google
     llm_model_local: str = "gemma3:4b" # local Ollama model
-    llm_model_google: str = "gemma-2.0-flash" # Google AI model
+    llm_model_google: str = "gemma-4-31b-it" # Google AI model
     google_ai_api_key: str = "" # set in .env for prod.
 
     # --- Computed helpers (no env var needed) ---

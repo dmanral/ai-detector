@@ -22,6 +22,7 @@
                 {"name": "AWS_DEFAULT_REGION", "value": "us-east-1"},
                 {"name": "ENVIRONMENT", "value": "production"},
                 {"name": "LLM_PROVIDER", "value": "google"},
+                {"name": "LLM_MODEL_GOOGLE", "value": "gemma-4-31b-it"},
                 {"name": "LLM_SEND_IMAGE_LOCALLY", "value": "true"}
             ],
             "secrets": [
