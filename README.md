@@ -48,3 +48,36 @@ Design guidance
 - Use vertical slices (one folder per feature) so each feature contains its HTTP surface, validation, and business logic.
 - Keep model/GPU-heavy inference in `service.py` but consider offloading to workers or separate services for production.
 - Add `tests/` per slice and integration tests in the project `tests/` directory.
+
+Adding AI
+POST /detect/image  or  /detect/document
+            ↓
+    Orchestrator Agent
+    - Receives file
+    - Decides which subagent to invoke
+    - Passes file + metadata
+            ↓
+    ┌───────────────────────────────┐
+    │  Image Subagent               │
+    │  1. Calls existing image      │
+    │     detection pipeline        │
+    │  2. Gets signal scores back   │
+    │  3. Sends scores + image to   │
+    │     Gemma with reasoning      │
+    │     prompt                    │
+    │  4. Returns enriched result   │
+    └───────────────────────────────┘
+            or
+    ┌───────────────────────────────┐
+    │  Document Subagent            │
+    │  1. Extracts text             │
+    │  2. Calls existing document   │
+    │     detection pipeline        │
+    │  3. Sends scores + text to    │
+    │     Gemma with reasoning      │
+    │     prompt                    │
+    │  4. Returns enriched result   │
+    └───────────────────────────────┘
+            ↓
+    Orchestrator combines results
+    Returns final verdict + explanation

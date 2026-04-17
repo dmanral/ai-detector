@@ -15,9 +15,10 @@ from typing import Optional
 
 import numpy as np
 import onnxruntime as ort
-from transformers import AutoTokenizer
+from transformers import RobertaTokenizer
 import PyPDF2
 import docx
+from pathlib import Path
 
 from app.core.config import get_settings
 from app.features.document.schemas import(
@@ -55,8 +56,12 @@ class DocumentDetectionService:
         self._ort_session = ort.InferenceSession(settings.text_classifier_model)
         logger.info("Text classifier ONNX model loaded from %s", settings.text_classifier_model)
 
-        self._tokenizer = AutoTokenizer.from_pretrained(settings.text_classifier_tokenizer_dir)
-        logger.info("Tokenizer loaded from %s", settings.text_classifier_tokenizer_dir)
+        tokenizer_path = Path(settings.text_classifier_tokenizer_dir).resolve()
+        self._tokenizer = RobertaTokenizer.from_pretrained(
+            str(tokenizer_path),
+            local_files_only=True
+        )
+        logger.info("Tokenizer loaded from %s", tokenizer_path)
 
         self._models_loaded = True
         logger.info("Document detection models loaded successfully")

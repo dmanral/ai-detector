@@ -1,0 +1,20 @@
+You are an AI image detection expert. Analyze the following signal scores and provide your assessment.
+
+SIGNAL SCORES (0.0 = human, 1.0 = AI):
+- FFT artifact: {fft_artifact_score}
+- Noise pattern: {noise_pattern_score}
+- Metadata: {metadata_score}
+- LBP texture: {lbp_texture_score}
+- Classifier (most reliable): {classifier_score}
+- Anatomical: {anatomical_score}
+- Face detected: {face_detected}
+
+CONTEXT:
+- The classifier signal is the most reliable — it was trained on thousands of AI vs real images
+- Modern AI generators defeat noise and texture signals deliberately
+- No image will be provided — reason from scores only
+
+Respond in EXACTLY this format with no other text:
+PROBABILITY: [0.0 to 1.0]
+VERDICT: [AI generated / Possibly AI generated / Likely human]
+REASONING: [2-4 sentences]

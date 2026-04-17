@@ -19,12 +19,19 @@
             "environment": [
                 {"name": "ENVIRONMENT", "value": "production"},
                 {"name": "DEBUG", "value": "false"},
-                {"name": "AWS_DEFAULT_REGION", "value": "us-east-1"}
+                {"name": "AWS_DEFAULT_REGION", "value": "us-east-1"},
+                {"name": "ENVIRONMENT", "value": "production"},
+                {"name": "LLM_PROVIDER", "value": "google"},
+                {"name": "LLM_SEND_IMAGE_LOCALLY", "value": "true"}
             ],
             "secrets": [
                 {
                     "name": "API_KEYS",
                     "valueFrom": "arn:aws:secretsmanager:us-east-1:020212777583:secret:ai-detector/api-keys-1CVOat"
+                },
+                {
+                    "name": "GOOGLE_AI_API_KEY",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:020212777583:secret:ai-detector/google-ai-api-key-yxumKL"
                 }
             ],
             "logConfiguration": {
