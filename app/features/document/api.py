@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, UploadFile, File, status
+from fastapi import APIRouter, Depends, UploadFile, File, status, Request
 from app.main import limiter
 
 from app.core.config import Settings, get_settings
@@ -22,6 +22,7 @@ router = APIRouter()
 
 @limiter.limit("20/minute")  # Limit to 20 requests per minute
 async def detect_document(
+    request: Request,
     file: UploadFile = File(..., description="Documentfile to analyse (.txt, .pdf, .docx)"),
     settings: Settings = Depends(get_settings),
 ):

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, UploadFile, File
+from fastapi import APIRouter, Depends, UploadFile, File, Request
 from fastapi import status
 
 from app.main import limiter
@@ -24,6 +24,7 @@ router = APIRouter()
 )
 @limiter.limit("20/minute")  # Limit to 20 requests per minute
 async def detect_image(
+    request: Request,
     file: UploadFile = File(..., description="Image file to analyze"),
     settings: Settings = Depends(get_settings),
 ):
