@@ -19,7 +19,7 @@ transformers
 dlib
 
 # Document parsing
-PyPDF2
+pypdf
 python-docx
 
 # Utilities
@@ -29,3 +29,9 @@ onnx
 ollama
 google-genai        # Google AI SDK for production swap.
 httpx               # Async HTTP client for Ollama API calls.
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
+httpx

@@ -16,7 +16,7 @@ from typing import Optional
 import numpy as np
 import onnxruntime as ort
 from transformers import RobertaTokenizer
-import PyPDF2
+import pypdf
 import docx
 from pathlib import Path
 
