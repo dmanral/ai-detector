@@ -134,24 +134,22 @@ def client(mock_image_service, mock_document_service):
     import os
     os.environ["API_KEYS"] = "test-key-123"
 
-    # Clear the settings cache so the new env var is picked up
     from app.core.config import get_settings
     get_settings.cache_clear()
 
-    from app.agents.orchestrator import Orchestrator
     from unittest.mock import MagicMock, patch
-    mock_orchestrator = MagicMock()
 
-    with patch("app.main.image_service", mock_image_service), \
+    with patch("app.features.image.service.ImageDetectionService.load_models"), \
+         patch("app.features.document.service.DocumentDetectionService.load_models"), \
+         patch("app.main.image_service", mock_image_service), \
          patch("app.main.document_service", mock_document_service), \
-         patch("app.main.orchestrator", mock_orchestrator):
+         patch("app.main.orchestrator", MagicMock()):
 
         from app.main import app
         with TestClient(app) as c:
             c.headers.update({"X-API-Key": "test-key-123"})
             yield c
 
-    # Restore cache after test
     get_settings.cache_clear()
 
 @pytest.fixture
