@@ -1,6 +1,9 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Depends, UploadFile, File
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 from app.core.config import get_settings
 from app.core.logging import setup_logging, get_logger
@@ -20,6 +23,13 @@ image_service    = ImageDetectionService()
 document_service = DocumentDetectionService()
 orchestrator     = Orchestrator(image_service, document_service)
 
+# ---------------------------------------------------------------------------
+# Rate limiter - keyed by API key header, falls back to IP.
+# ---------------------------------------------------------------------------
+def get_api_key(request: Request) -> str:
+    return request.headers.get("X-API-Key") or get_remote_address(request)
+
+limiter = Limiter(key_func=get_api_key)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -46,6 +56,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Attach limiter and its 429 handler.
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 # ---------------------------------------------------------------------------
 # Exception handlers
 # ---------------------------------------------------------------------------
@@ -70,6 +84,7 @@ async def health_check():
 # ---------------------------------------------------------------------------
 
 @app.post("/detect", tags=["detect"], dependencies=[Depends(require_api_key)])
+@limiter.limit("10/minute")  # Limit to 10 requests per minute
 async def detect(
     file: UploadFile = File(..., description="Image or document to analyse"),
 ):

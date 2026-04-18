@@ -35,3 +35,6 @@ pytest
 pytest-asyncio
 pytest-cov
 httpx
+
+# Rate limiting
+slowapi

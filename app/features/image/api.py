@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, UploadFile, File
 from fastapi import status
 
+from app.main import limiter
+
 from app.core.config import Settings, get_settings
 from app.core.logging import get_logger
 from app.common.auth import require_api_key
@@ -20,7 +22,7 @@ router = APIRouter()
     dependencies=[Depends(require_api_key)],
     summary="Detect if an image is AI-generated",
 )
-
+@limiter.limit("20/minute")  # Limit to 20 requests per minute
 async def detect_image(
     file: UploadFile = File(..., description="Image file to analyze"),
     settings: Settings = Depends(get_settings),
