@@ -86,6 +86,7 @@ async def health_check():
 @app.post("/detect", tags=["detect"], dependencies=[Depends(require_api_key)])
 @limiter.limit("10/minute")  # Limit to 10 requests per minute
 async def detect(
+    request: Request,
     file: UploadFile = File(..., description="Image or document to analyse"),
 ):
     """
