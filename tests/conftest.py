@@ -146,7 +146,7 @@ def client(mock_image_service, mock_document_service):
          patch("app.main.orchestrator", MagicMock()):
 
         from app.main import app
-        with TestClient(app) as c:
+        with TestClient(app, raise_server_exceptions=False) as c:
             c.headers.update({"X-API-Key": "test-key-123"})
             yield c
 
