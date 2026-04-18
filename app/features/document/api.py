@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, UploadFile, File, status
+from app.main import limiter
 
 from app.core.config import Settings, get_settings
 from app.core.logging import get_logger
@@ -19,6 +20,7 @@ router = APIRouter()
     summary="Detect if a document is AI-generated",
 )
 
+@limiter.limit("20/minute")  # Limit to 20 requests per minute
 async def detect_document(
     file: UploadFile = File(..., description="Documentfile to analyse (.txt, .pdf, .docx)"),
     settings: Settings = Depends(get_settings),
