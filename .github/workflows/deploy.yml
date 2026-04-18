@@ -14,9 +14,34 @@ env:
   CONTAINER_NAME: ai-detector
 
 jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run unit tests with coverage
+        run: pytest -m "not integration" --cov=app --cov-report=term-missing
+        env:
+          API_KEYS: test-key-123
+          LLM_PROVIDER: ollama
+          ENVIRONMENT: test
+          
   deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
+    needs: test
     environment: ai-detector prod
 
     steps:

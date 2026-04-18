@@ -41,7 +41,7 @@ class UnsupportedMediaTypeError(AppError):
     message = "The uploaded file type is not supported."
 
 class FileTooLargeError(AppError):
-    status_code = status.HTTP_413_REQUEST_ENTITY_TOO_LARGE
+    status_code = status.HTTP_413_CONTENT_TOO_LARGE
     error_code = "file_too_large"
     message = "The uploaded file exceeds the maximum allowed size."
 
@@ -88,8 +88,8 @@ async def _app_error_handler(request: Request, exc: AppError) -> JSONResponse:
 
 async def _validation_error_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
     logger.warning("validation_error  path=%s  errors=%s", request.url.path, exc.errors())
-    return JSONREsponse(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+    return JSONResponse(
+        status_code = status.HTTP_422_UNPROCESSABLE_CONTENT,
         content={
             "error": "validation_error",
             "message": "Request validation failed.",
